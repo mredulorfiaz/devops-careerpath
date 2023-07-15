@@ -1,0 +1,29 @@
+name: Python Linting and Build
+
+on: [push, pull_request]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install --upgrade pip
+          
+      - name: Install project dependencies
+        run: pip install -r github-actions/requirements.txt
+
+      - name: Lint Python files
+        run: flake8 --exclude=github-actions/requirements.txt github-actions/
+
+      - name: Build project
+        if: ${{ success() }}
+        run: cd github-actions && python setup.py sdist
