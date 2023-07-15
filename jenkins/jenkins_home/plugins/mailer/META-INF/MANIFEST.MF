@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Created-By: Maven Archiver 3.6.0
+Build-Jdk-Spec: 11
+Specification-Title: Jenkins Mailer Plugin
+Specification-Version: 0.0
+Implementation-Title: Jenkins Mailer Plugin
+Implementation-Version: 457.v3f72cb_e015e5
+Plugin-Class: hudson.tasks.PluginImpl
+Group-Id: org.jenkins-ci.plugins
+Artifact-Id: mailer
+Short-Name: mailer
+Long-Name: Jenkins Mailer Plugin
+Url: https://github.com/jenkinsci/mailer-plugin
+Plugin-Version: 457.v3f72cb_e015e5
+Hudson-Version: 2.361.4
+Jenkins-Version: 2.361.4
+Plugin-Dependencies: jakarta-mail-api:2.0.1-3,instance-identity:142.v045
+ 72ca_5b_265,display-url-api:2.3.7
+Plugin-Developers: 
+Plugin-License-Name: The MIT license
+Plugin-License-Url: https://opensource.org/licenses/MIT
+Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/mailer-plugin
+ .git
+Plugin-ScmTag: 3f72cbe015e5228a07c9a5abf9910c233762f961
+Plugin-ScmUrl: https://github.com/jenkinsci/mailer-plugin
+Plugin-GitHash: 3f72cbe015e5228a07c9a5abf9910c233762f961
+Implementation-Build: 3f72cbe015e5228a07c9a5abf9910c233762f961
+
