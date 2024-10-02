@@ -11,6 +11,22 @@ resource "aws_instance" "dev_instance" {
   tags = {
     Name = "dev-instance"
   }
+  iam_instance_profile = ""
+}
+
+resource "aws_ebs_volume" "dev_volume" {
+  availability_zone = aws_instance.dev_instance.availability_zone
+  size              = 10
+  type              = "gp2"
+  tags = {
+    Name = "dev-volume"
+  }
+}
+
+resource "aws_volume_attachment" "dev_volume_attach" {
+  device_name = "/dev/xvdf"
+  volume_id   = aws_ebs_volume.dev_volume.id
+  instance_id = aws_instance.dev_instance.id
 }
 
 resource "aws_security_group" "allow_ssh" {
@@ -26,6 +42,14 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "HTTP from VPC"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -36,4 +60,8 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     Name = "allow_ssh"
   }
+}
+
+output "name" {
+  value = aws_instance.dev_instance.public_ip
 }

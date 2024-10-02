@@ -1,5 +1,4 @@
-ami_id        = "ami-005fc0f236362e99f"
-instance_type = "t2.micro"
-key_name      = "dev-key"
+ami_id        = "ami-07ee04759daf109de"
+instance_type = "t4g.small"
 aws_region    = "us-east-1"
 vpc_name      = "dev-vpc"

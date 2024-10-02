@@ -1,10 +1,10 @@
 #cloud-config
-cloud_final_modules:
-- [users-groups,always]
+groups:
+  - devops
 users:
   - name: orfiaz
-    groups: [ devs ]
+    groups: [ devs, devops ]
     sudo: [ "ALL=(ALL) NOPASSWD:ALL" ]
     shell: /bin/bash
     ssh-authorized-keys: 
-    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDj+FRcsP/EsZreEuuVrMMjQgzyvx3+APfMyMA/qPSDdzp3iP12rc26XjunigKuRKP2c4OSYvjqxr+opDAZCBLBiPxrMOgo3HLLZxPTG8aoDQT645GGJXJyl4ne5U2vaJvodlizoTSWOqrOBbsh5t3y8yAvijjxFZ3yNZtbQ1GzRK3R+9eikF99SVdNa3IikA9ZC95MKsmLRGvvtcyh39THjYlggXfpbxyvO6pFNVrGA+Ct4ulIPe72GE8980LRUoNEpTyJVu4BUgzGmRhwELg/+tFrYvfhspkbeZDZWxBmcMh2t5uR/PKx7haC83HPLbCBX4v82rqOqIyoKMIdolHutFi36jiAxTS/LOVMtuOgYF1iUKjyn7IM/vIcFYUUxEevSTUkrfzzBRj++KRpb0fnMSmL55jkEtMa2ooqI1Hd37IQNlHmA/GlytHxC+RSxOntBb8jRXd9nXuYVwZbsd3WCQ43xhfM0hfYbxJZJDO1NZekFDCbietdWjIR2HxudcKQrPAhn9QI57Ly0FYoP3OEZooed4eRPHe4WTdmLHGz3BWotEh5KRY2rgBULNX+EWO2S+nYz96E6oS1ws0nVkGO9fN3ot1mQXma/eq5wJQJBM23iB4EchyuAYIrKFKeGLGA+C4wjBh3XK4f+DIlp1Mnpx4iz0ya8zgF8dH20eElUw== orfiaz@n0b0dy
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDVNBqDR3bX1QcVmO05vT+pk0/fYLz50O0dBW/H9HuladZneNy6vfWTgPCRCA/o99+1D79V3afIkQJJ0mO9UP9XgVUJguBQ+iuhh+4ryhNioaeIcsyaatcAXwnMOazCEHSfPEoTl5LIV5MFGkttICtzleaK79c6t5tJ4Ix1SUYi2wqQEKx5aSHVXZ80evVu9FzGvSB4kKabOW19ar8e2pLxyyANmTBO3WftZ6ECZulzxmuqBPfoXgSjsRa3Oqtqw4fQAFTwatrzAvGIFO+/+4hPNNFGfaHXZ8bs7qc7oPdb+Y01PAUIZbKK8dyDHbvjmjp+8EC8Yl+mdYFzKAMZPHABkJ9hAq6qRHfcIj7tIaA05YS6rfrV3YhHrsfkikqOKw0i7DwfzrCbZ6YakleOdqj/9W5jdUFsWO4UHgJO0Z5YAfkEzzkTOoloViLIVLMVTM2SQJnM8wn3ASxOBiz8TUBYNauu8d8+2jBNkPgFsZqrD5eOJ/R+NNQR2Vxqyytv/QM= orfiaz@n0b0dy
