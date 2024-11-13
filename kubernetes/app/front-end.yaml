@@ -1,0 +1,122 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: front-end-ingress
+spec:
+  ingressClassName: ngrok
+  rules:
+  - host: cow-sharing-minnow.ngrok-free.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-end
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end
+spec:
+  selector:
+    app: front-end
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-end
+data:
+  path-a.html: |
+    <html>
+      <h3>"/path-a.html" on front-end</h3>
+    </html>
+  index.html: |
+    <html>
+      <h3>"/" on front-end</h3>
+    </html>  
+  404.html: |
+    <html>
+      <h3>front-end 404 page</h3>
+    </html>
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-end-nginx-config
+data:
+  nginx.conf: |
+    user  nginx;
+    worker_processes  1;
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+    events {
+        worker_connections  1024;
+    }
+
+    http {
+        sendfile        on;
+        server {
+          listen       80;
+          server_name  localhost;
+
+          location /front-end {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+          }
+
+          location / {
+              root   /usr/share/nginx/html;
+              index  index.html index.htm;
+          }
+
+
+          error_page 404 /404.html;
+          error_page   500 502 503 504  /50x.html;
+          location = /50x.html {
+              root   /usr/share/nginx/html;
+          }
+        }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  labels:
+    app: front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.26
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: "/usr/share/nginx/html/"
+        - name: config
+          mountPath: "/etc/nginx/"
+      volumes:
+      - name: html
+        configMap:
+          name: front-end
+      - name: config
+        configMap:
+          name: front-end-nginx-config
+

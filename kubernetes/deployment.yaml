@@ -1,0 +1,77 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: httpd-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: devops-ic-batch-02.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: httpd-service
+                port:
+                  number: 80
+                  # name: http-port-01
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service
+spec:
+  selector:
+    application: httpd
+  ports:
+    - name: http-port-01
+      port: 80
+      targetPort: http
+    - name: http-port-02
+      port: 8085
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service-nodeport
+spec:
+  type: NodePort
+  selector:
+    application: httpd
+  ports:
+    - name: http-port-01
+      port: 80
+      targetPort: http
+      nodePort: 30001
+    - name: http-port-02
+      port: 8085
+      targetPort: http
+      nodePort: 30002
+
+---
+apiVersion: apps/v1
+metadata:
+  name: httpd-app
+  labels:
+    production: "true"
+kind: Deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      application: httpd
+  template:
+    metadata:
+      labels:
+        application: httpd
+    spec:
+      containers:
+        - name: httpd
+          image: httpd:alpine
+          ports:
+            - name: http
+              containerPort: 80

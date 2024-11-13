@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ic-worker-02-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      

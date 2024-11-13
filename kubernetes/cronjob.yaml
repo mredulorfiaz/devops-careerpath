@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+metadata:
+  name: super-important-cronjob
+kind: CronJob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 60
+      template:
+        metadata:
+          labels:
+            application: nginx
+        spec:
+          containers:
+            - name: busybox
+              image: busybox
+              command:
+                - echooo
+                - "Hello world"
+          restartPolicy: OnFailure

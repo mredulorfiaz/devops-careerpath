@@ -1,0 +1,52 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: back-end-ingress
+# spec:
+#   ingressClassName: ngrok
+#   rules:
+#   - host: cow-sharing-minnow.ngrok-free.app
+#     http:
+#       paths:
+#       - path: /status
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: back-end
+#             port:
+#               number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  selector:
+    app: back-end
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end
+  labels:
+    app: back-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: flask-app
+        image: 0rf1az/mycoolwebapp:multi-platform-v1
+        ports:
+        - containerPort: 5000
+          name: http
